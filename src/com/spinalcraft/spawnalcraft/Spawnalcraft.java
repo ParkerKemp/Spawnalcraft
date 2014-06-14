@@ -1,10 +1,15 @@
 package com.spinalcraft.spawnalcraft;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -27,6 +32,7 @@ import com.spinalcraft.spinalpack.Spinalpack;
 public class Spawnalcraft extends JavaPlugin implements Listener{
 
 	public static Location spawn = null;
+	private static List<String> motd = null;
 	
 	ConsoleCommandSender console;
 	
@@ -35,6 +41,8 @@ public class Spawnalcraft extends JavaPlugin implements Listener{
 		console = Bukkit.getConsoleSender();
 		
 		console.sendMessage(Spinalpack.code(Co.BLUE) + "Spawnalcraft online!");
+		
+		getMOTD();
 		
 		spawn = readSpawnFile();
 		getServer().getPluginManager().registerEvents((Listener)this,  this);
@@ -47,13 +55,16 @@ public class Spawnalcraft extends JavaPlugin implements Listener{
 	
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerJoin(PlayerJoinEvent event){
-		if(spawn == null)
-			return;
 		Player player = event.getPlayer();
+		
 		if(!player.hasPlayedBefore()){
-			Bukkit.broadcastMessage(Spinalpack.code(Co.AQUA) + "Welcome our newest Spinaling, " + Spinalpack.code(Co.BLUE) + player.getName());
-			player.teleport(spawn);
+			Bukkit.broadcastMessage(Spinalpack.code(Co.AQUA) + "Welcome our newest Spinaling, " + Spinalpack.code(Co.BLUE) + player.getName() + Spinalpack.code(Co.AQUA) + "!");
+			player.sendMessage(Spinalpack.code(Co.GOLD) + "Welcome to Spinalcraft!");
+			if(spawn != null)
+				player.teleport(spawn);
 		}
+		
+		sendMOTD(player);
 	}
 	
 	@EventHandler(priority = EventPriority.NORMAL)
@@ -107,6 +118,25 @@ public class Spawnalcraft extends JavaPlugin implements Listener{
 		}
 	}
 	
+	private void sendMOTD(Player player){
+		if(motd == null)
+			return;
+		for(String line : motd){
+			player.sendMessage(line);
+		}
+	}
+	
+	private void getMOTD(){
+		try {
+			motd = Files.readAllLines(Paths.get(System.getProperty("user.dir") + "/plugins/Spinalpack/motd.txt"), StandardCharsets.UTF_8);
+			for(int i = 0; i < motd.size(); i++){
+				motd.set(i, Spinalpack.parseColorTags(motd.get(i)));
+			}
+		} catch (IOException e) {
+			console.sendMessage(Spinalpack.code(Co.RED) + "Unable to open motd.txt!");
+		}
+	}
+	
 	private Location readSpawnFile(){
 		double x, y, z;
 		float pitch, yaw;
@@ -124,32 +154,4 @@ public class Spawnalcraft extends JavaPlugin implements Listener{
 		}
 		return new Location(Bukkit.getWorld("world"), x, y, z, yaw, pitch);
 	}
-	
-	/*public void logToFile(String file, String message){
-		try {
-			PrintWriter writer = new PrintWriter(new FileWriter(file, true));
-			writer.println(dateAndTime() + " " + message);
-			writer.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public String getWatchdogPid(){
-		String temp = "(invalid)";
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader(new File(getDataFolder().toString() + "/watchdogPid.txt")));
-			temp = reader.readLine();
-			getLogger().info(temp);
-			reader.close();
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			//e1.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return temp;
-	}*/
 }
