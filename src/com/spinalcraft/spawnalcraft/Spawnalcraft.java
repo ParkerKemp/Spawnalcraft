@@ -102,11 +102,10 @@ public class Spawnalcraft extends JavaPlugin implements Listener{
 		}
 		
 		if(cmd.getName().equalsIgnoreCase("updatemotd")){
-			Player player = (Player)sender;
 			if(getMOTD())
-				player.sendMessage(Spinalpack.code(Co.GREEN) + "Updated message of the day successfully!");
+				sender.sendMessage(Spinalpack.code(Co.GREEN) + "Updated message of the day successfully!");
 			else
-				player.sendMessage(Spinalpack.code(Co.RED) + "Couldn't find or open motd.txt!");
+				sender.sendMessage(Spinalpack.code(Co.RED) + "Couldn't find or open motd.txt!");
 			return true;
 		}
 		return false;
