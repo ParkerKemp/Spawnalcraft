@@ -7,12 +7,18 @@ depend: [Spinalpack]
 commands:
   spawnalize:
     description: Set a spawn location
-    usage: /spawnalize
+    usage: Usage - /spawnalize
     permission: spawnalcraft.spawnalize
-    permission-message: No touchy.
+    permission-message: No!
   
   spawnal:
     description: Teleport to spawn
-    usage: /spawnal
+    usage: Usage - /spawnal
     permission: spawnalcraft.spawnal
-    permission-message: No touchy.
+    permission-message: No!
+
+  updatemotd:
+    description: Reload the message of the day from motd.txt
+    usage: Usage - /updatemotd
+    permission: spawnalcraft:motd
+    permission-message: No!

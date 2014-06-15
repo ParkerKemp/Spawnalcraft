@@ -100,6 +100,15 @@ public class Spawnalcraft extends JavaPlugin implements Listener{
 				return true;
 			}
 		}
+		
+		if(cmd.getName().equalsIgnoreCase("updatemotd")){
+			Player player = (Player)sender;
+			if(getMOTD())
+				player.sendMessage(Spinalpack.code(Co.GREEN) + "Updated message of the day successfully!");
+			else
+				player.sendMessage(Spinalpack.code(Co.RED) + "Couldn't find or open motd.txt!");
+			return true;
+		}
 		return false;
 	}
 	
@@ -126,14 +135,16 @@ public class Spawnalcraft extends JavaPlugin implements Listener{
 		}
 	}
 	
-	private void getMOTD(){
+	private boolean getMOTD(){
 		try {
 			motd = Files.readAllLines(Paths.get(System.getProperty("user.dir") + "/plugins/Spinalpack/motd.txt"), StandardCharsets.UTF_8);
 			for(int i = 0; i < motd.size(); i++){
 				motd.set(i, Spinalpack.parseColorTags(motd.get(i)));
 			}
+			return true;
 		} catch (IOException e) {
 			console.sendMessage(Spinalpack.code(Co.RED) + "Unable to open motd.txt!");
+			return false;
 		}
 	}
 	
