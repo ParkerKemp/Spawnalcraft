@@ -1,0 +1,9 @@
+spawn:
+#  x:
+#  y:
+#  z:
+#  pitch:
+#  yaw:
+  
+#Spawn every player at "spawn" when joining the server
+force-spawn-on-join: false

@@ -1,4 +1,4 @@
-package com.spinalcraft.spawnalcraft;
+package main.java.com.spinalcraft.spawnalcraft;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -10,11 +10,16 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
+import main.java.com.spinalcraft.spinalpack.Co;
+import main.java.com.spinalcraft.spinalpack.Spinalpack;
+import net.md_5.bungee.api.ChatColor;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -23,9 +28,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import com.spinalcraft.spinalpack.Co;
-import com.spinalcraft.spinalpack.Spinalpack;
 
 
 public class Spawnalcraft extends JavaPlugin implements Listener{
@@ -40,9 +42,10 @@ public class Spawnalcraft extends JavaPlugin implements Listener{
 		console = Bukkit.getConsoleSender();
 		
 		console.sendMessage(Spinalpack.code(Co.BLUE) + "Spawnalcraft online!");
-		
+		getDataFolder().mkdirs();
 		getMOTD();
-		
+		saveDefaultConfig();
+		loadConfig();
 		spawn = readSpawnFile();
 		getServer().getPluginManager().registerEvents((Listener)this,  this);
 	}
@@ -86,18 +89,39 @@ public class Spawnalcraft extends JavaPlugin implements Listener{
 		}
 		
 		if(cmd.getName().equalsIgnoreCase("spawnal")){
-			if(sender instanceof Player){
+			if(args.length > 0){
+				Player player = Bukkit.getPlayer(args[0]);
+				if(player == null){
+					sender.sendMessage(ChatColor.RED + "Player not found!");
+					return true;
+				}
+				player.sendMessage(ChatColor.GOLD + "Teleporting to spawn.");
+				player.teleport(spawn);
+			}
+			else if(sender instanceof Player){
 				Player player = (Player)sender;
 				if(spawn != null){
-					player.sendMessage(Spinalpack.code(Co.GOLD) + "Teleporting to spawnal.");
+					player.sendMessage(Spinalpack.code(Co.GOLD) + "Teleporting to spawn.");
 					player.teleport(spawn);
 				}
 				else{
 					player.sendMessage(Spinalpack.code(Co.GOLD) + "No spawnal set! Teleporting to default world spawn.");
 					player.teleport(Bukkit.getWorld("world").getSpawnLocation());
 				}
+			}
+			else
+				return false;
+			return true;
+		}
+		
+		if(cmd.getName().equalsIgnoreCase("spawnalcraft")){
+			if(args.length < 1)
+				return false;
+			if(args[0].equalsIgnoreCase("reload") && sender.hasPermission("spawnalcraft.reload")){
+				loadConfig();
 				return true;
 			}
+			return false;
 		}
 		
 		if(cmd.getName().equalsIgnoreCase("updatemotd")){
@@ -110,6 +134,15 @@ public class Spawnalcraft extends JavaPlugin implements Listener{
 		return false;
 	}
 	
+	private void loadConfig(){
+		FileConfiguration config = getConfig();
+		double x = config.getDouble("spawn.x");
+		double y = config.getDouble("spawn.y");
+		double z = config.getDouble("spawn.z");
+		boolean forceSpawn = config.getBoolean("force-spawn-on-join");
+		Bukkit.broadcastMessage("x: " + x + " y: " + y + " z: " + z + " forceSpawn: " + (forceSpawn ? "true" : "false"));
+	}
+	
 	private void writeSpawnFile(Location location){
 		try {
 			PrintWriter writer = new PrintWriter(new FileWriter(System.getProperty("user.dir") + "/plugins/Spinalpack/spawn.txt"));
@@ -120,7 +153,6 @@ public class Spawnalcraft extends JavaPlugin implements Listener{
 			writer.println(location.getYaw());
 			writer.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -1,5 +1,5 @@
 name: Spawnalcraft
-main: com.spinalcraft.spawnalcraft.Spawnalcraft
+main: main.java.com.spinalcraft.spawnalcraft.Spawnalcraft
 version: 1.0
 
 depend: [Spinalpack]
@@ -20,5 +20,12 @@ commands:
   updatemotd:
     description: Reload the message of the day from motd.txt
     usage: Usage - /updatemotd
-    permission: spawnalcraft:motd
+    permission: spawnalcraft.motd
     permission-message: No!
+  
+  spawnalcraft:
+    description: Access internal commands
+    usage: Usage - /spawnalcraft
+    permission: spawnalcraft.spawnalcraft
+    permission-message: No!
+    
