@@ -47,7 +47,7 @@ public class Spawnalcraft extends JavaPlugin implements Listener{
 		getMOTD();
 		saveDefaultConfig();
 		loadConfig();
-		spawn = readSpawnFile();
+		//spawn = readSpawnFile();
 		getServer().getPluginManager().registerEvents((Listener)this,  this);
 	}
 	
@@ -65,7 +65,8 @@ public class Spawnalcraft extends JavaPlugin implements Listener{
 			player.sendMessage(Spinalpack.code(Co.GOLD) + "Welcome to Spinalcraft!");
 			if(spawn != null)
 				player.teleport(spawn);
-		}
+		}else if(forceSpawn)
+			player.teleport(spawn);
 		
 		sendMOTD(player);
 	}
