@@ -34,6 +34,7 @@ public class Spawnalcraft extends JavaPlugin implements Listener{
 
 	public static Location spawn = null;
 	private static List<String> motd = null;
+	boolean forceSpawn;
 	
 	ConsoleCommandSender console;
 	
@@ -83,7 +84,7 @@ public class Spawnalcraft extends JavaPlugin implements Listener{
 				Player player = (Player)sender;
 				player.sendMessage(Spinalpack.code(Co.GOLD) + "World spawn set!");
 				spawn = player.getLocation();
-				writeSpawnFile(spawn);
+				writeSpawn(spawn);
 				return true;
 			}
 		}
@@ -135,12 +136,27 @@ public class Spawnalcraft extends JavaPlugin implements Listener{
 	}
 	
 	private void loadConfig(){
+		reloadConfig();
 		FileConfiguration config = getConfig();
-		double x = config.getDouble("spawn.x");
-		double y = config.getDouble("spawn.y");
-		double z = config.getDouble("spawn.z");
-		boolean forceSpawn = config.getBoolean("force-spawn-on-join");
-		Bukkit.broadcastMessage("x: " + x + " y: " + y + " z: " + z + " forceSpawn: " + (forceSpawn ? "true" : "false"));
+		if(config.isSet("spawn.x") && config.isSet("spawn.y") && config.isSet("spawn.z")){
+			float x = (float) config.getDouble("spawn.x");
+			float y = (float) config.getDouble("spawn.y");
+			float z = (float) config.getDouble("spawn.z");
+			float pitch = (float) config.getDouble("spawn.pitch");
+			float yaw = (float) config.getDouble("spawn.yaw");
+			spawn = new Location(Bukkit.getWorld("world"), x, y, z, yaw, pitch);
+		}
+		forceSpawn = config.getBoolean("force-spawn-on-join");
+	}
+	
+	private void writeSpawn(Location location){
+		FileConfiguration config = getConfig();
+		config.set("spawn.x", location.getX());
+		config.set("spawn.y", location.getY());
+		config.set("spawn.z", location.getZ());
+		config.set("spawn.pitch", location.getPitch());
+		config.set("spawn.yaw", location.getYaw());
+		saveConfig();
 	}
 	
 	private void writeSpawnFile(Location location){
