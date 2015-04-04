@@ -1,10 +1,6 @@
 package main.java.com.spinalcraft.spawnalcraft;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -47,7 +43,6 @@ public class Spawnalcraft extends JavaPlugin implements Listener{
 		getMOTD();
 		saveDefaultConfig();
 		loadConfig();
-		//spawn = readSpawnFile();
 		getServer().getPluginManager().registerEvents((Listener)this,  this);
 	}
 	
@@ -160,20 +155,6 @@ public class Spawnalcraft extends JavaPlugin implements Listener{
 		saveConfig();
 	}
 	
-	private void writeSpawnFile(Location location){
-		try {
-			PrintWriter writer = new PrintWriter(new FileWriter(System.getProperty("user.dir") + "/plugins/Spinalpack/spawn.txt"));
-			writer.println(location.getX());
-			writer.println(location.getY());
-			writer.println(location.getZ());
-			writer.println(location.getPitch());
-			writer.println(location.getYaw());
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
 	private void sendMOTD(Player player){
 		if(motd == null)
 			return;
@@ -193,23 +174,5 @@ public class Spawnalcraft extends JavaPlugin implements Listener{
 			console.sendMessage(Spinalpack.code(Co.RED) + "Unable to open motd.txt!");
 			return false;
 		}
-	}
-	
-	private Location readSpawnFile(){
-		double x, y, z;
-		float pitch, yaw;
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/plugins/Spinalpack/spawn.txt"));
-			x = Float.parseFloat(reader.readLine());
-			y = Float.parseFloat(reader.readLine());
-			z = Float.parseFloat(reader.readLine());
-			pitch = Float.parseFloat(reader.readLine());
-			yaw = Float.parseFloat(reader.readLine());
-			
-			reader.close();
-		} catch (Exception e1) {
-			return null;
-		}
-		return new Location(Bukkit.getWorld("world"), x, y, z, yaw, pitch);
 	}
 }
