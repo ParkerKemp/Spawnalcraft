@@ -1,4 +1,4 @@
-package main.java.com.spinalcraft.spawnalcraft;
+package com.spinalcraft.spawnalcraft;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -6,8 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-import main.java.com.spinalcraft.spinalpack.Co;
-import main.java.com.spinalcraft.spinalpack.Spinalpack;
+import com.spinalcraft.spinalpack.Co;
+import com.spinalcraft.spinalpack.Spinalpack;
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Bukkit;
@@ -24,7 +24,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-
 
 public class Spawnalcraft extends JavaPlugin implements Listener{
 
@@ -74,6 +73,7 @@ public class Spawnalcraft extends JavaPlugin implements Listener{
 			event.setRespawnLocation(spawn);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 		if(cmd.getName().equalsIgnoreCase("spawnalize")){
 			if(sender instanceof Player){
