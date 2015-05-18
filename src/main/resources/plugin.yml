@@ -1,5 +1,5 @@
 name: Spawnalcraft
-main: main.java.com.spinalcraft.spawnalcraft.Spawnalcraft
+main: com.spinalcraft.spawnalcraft.Spawnalcraft
 version: 1.0
 
 depend: [Spinalpack]
