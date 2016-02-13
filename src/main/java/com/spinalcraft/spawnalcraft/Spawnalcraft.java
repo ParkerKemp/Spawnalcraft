@@ -55,8 +55,6 @@ public class Spawnalcraft extends JavaPlugin implements Listener{
 		Player player = event.getPlayer();
 		
 		if(!player.hasPlayedBefore()){
-			Bukkit.broadcastMessage(Spinalpack.code(Co.AQUA) + "Welcome our newest Spinaling, " + Spinalpack.code(Co.BLUE) + player.getName() + Spinalpack.code(Co.AQUA) + "!");
-			player.sendMessage(Spinalpack.code(Co.GOLD) + "Welcome to Spinalcraft!");
 			if(spawn != null)
 				player.teleport(spawn);
 		}else if(forceSpawn)
