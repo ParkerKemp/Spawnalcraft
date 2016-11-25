@@ -35,6 +35,7 @@ public class Spawnalcraft extends SpinalcraftPlugin implements Listener{
 	
 	@Override
 	public void onEnable(){
+		super.onEnable();
 		console = Bukkit.getConsoleSender();
 		
 		getMOTD();
