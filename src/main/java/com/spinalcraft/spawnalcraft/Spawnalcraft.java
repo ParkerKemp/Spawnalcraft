@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-import com.spinalcraft.spinalpack.SpinalcraftPlugin;
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Bukkit;
@@ -23,6 +22,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.spinalcraft.skull.SpinalcraftPlugin;
 
 public class Spawnalcraft extends SpinalcraftPlugin implements Listener{
 
