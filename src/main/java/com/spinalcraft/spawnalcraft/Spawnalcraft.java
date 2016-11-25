@@ -36,8 +36,6 @@ public class Spawnalcraft extends SpinalcraftPlugin implements Listener{
 	public void onEnable(){
 		console = Bukkit.getConsoleSender();
 		
-		console.sendMessage(ChatColor.BLUE + "Spawnalcraft online!");
-		getDataFolder().mkdirs();
 		getMOTD();
 		saveDefaultConfig();
 		loadConfig();
