@@ -6,8 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-import com.spinalcraft.spinalpack.Co;
-import com.spinalcraft.spinalpack.Spinalpack;
+import com.spinalcraft.spinalpack.SpinalcraftPlugin;
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Bukkit;
@@ -25,7 +24,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class Spawnalcraft extends JavaPlugin implements Listener{
+public class Spawnalcraft extends SpinalcraftPlugin implements Listener{
 
 	public static Location spawn = null;
 	private static List<String> motd = null;
@@ -37,7 +36,7 @@ public class Spawnalcraft extends JavaPlugin implements Listener{
 	public void onEnable(){
 		console = Bukkit.getConsoleSender();
 		
-		console.sendMessage(Spinalpack.code(Co.BLUE) + "Spawnalcraft online!");
+		console.sendMessage(ChatColor.BLUE + "Spawnalcraft online!");
 		getDataFolder().mkdirs();
 		getMOTD();
 		saveDefaultConfig();
@@ -76,7 +75,7 @@ public class Spawnalcraft extends JavaPlugin implements Listener{
 		if(cmd.getName().equalsIgnoreCase("spawnalize")){
 			if(sender instanceof Player){
 				Player player = (Player)sender;
-				player.sendMessage(Spinalpack.code(Co.GOLD) + "World spawn set!");
+				player.sendMessage(ChatColor.GOLD + "World spawn set!");
 				spawn = player.getLocation();
 				writeSpawn(spawn);
 				return true;
@@ -96,11 +95,11 @@ public class Spawnalcraft extends JavaPlugin implements Listener{
 			else if(sender instanceof Player){
 				Player player = (Player)sender;
 				if(spawn != null){
-					player.sendMessage(Spinalpack.code(Co.GOLD) + "Teleporting to spawn.");
+					player.sendMessage(ChatColor.GOLD + "Teleporting to spawn.");
 					player.teleport(spawn);
 				}
 				else{
-					player.sendMessage(Spinalpack.code(Co.GOLD) + "No spawnal set! Teleporting to default world spawn.");
+					player.sendMessage(ChatColor.GOLD + "No spawnal set! Teleporting to default world spawn.");
 					player.teleport(Bukkit.getWorld("world").getSpawnLocation());
 				}
 			}
@@ -121,9 +120,9 @@ public class Spawnalcraft extends JavaPlugin implements Listener{
 		
 		if(cmd.getName().equalsIgnoreCase("updatemotd")){
 			if(getMOTD())
-				sender.sendMessage(Spinalpack.code(Co.GREEN) + "Updated message of the day successfully!");
+				sender.sendMessage(ChatColor.GREEN + "Updated message of the day successfully!");
 			else
-				sender.sendMessage(Spinalpack.code(Co.RED) + "Couldn't find or open motd.txt!");
+				sender.sendMessage(ChatColor.RED + "Couldn't find or open motd.txt!");
 			return true;
 		}
 		return false;
@@ -165,11 +164,11 @@ public class Spawnalcraft extends JavaPlugin implements Listener{
 		try {
 			motd = Files.readAllLines(Paths.get(System.getProperty("user.dir") + "/plugins/Spinalpack/motd.txt"), StandardCharsets.UTF_8);
 			for(int i = 0; i < motd.size(); i++){
-				motd.set(i, Spinalpack.parseColorTags(motd.get(i)));
+				motd.set(i, parseColorTags(motd.get(i)));
 			}
 			return true;
 		} catch (IOException e) {
-			console.sendMessage(Spinalpack.code(Co.RED) + "Unable to open motd.txt!");
+			console.sendMessage(ChatColor.RED + "Unable to open motd.txt!");
 			return false;
 		}
 	}

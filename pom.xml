@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 	<groupId>com.spinalcraft</groupId>
 	<artifactId>Spawnalcraft</artifactId>
-	<version>1.0</version>
+	<version>1.1.0</version>
 	<name>Spawnalcraft</name>
 	
 	<properties>
@@ -37,8 +37,7 @@
 		<dependency>
 			<groupId>com.spinalcraft</groupId>
 			<artifactId>Spinalpack</artifactId>
-			<version>1.0</version>
-			<scope>provided</scope>
+			<version>1.1.0</version>
 		</dependency>
 	</dependencies>
 	<build>
@@ -58,6 +57,7 @@
 							<minimizeJar>true</minimizeJar>
 							<artifactSet>
 								<includes>
+									<include>com.spinalcraft:Spinalpack</include>
 								</includes>
 							</artifactSet>
 						</configuration>
