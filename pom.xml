@@ -37,7 +37,7 @@
 		<dependency>
 			<groupId>com.spinalcraft</groupId>
 			<artifactId>Skull</artifactId>
-			<version>1.0</version>
+			<version>1.0.4</version>
 		</dependency>
 	</dependencies>
 	<build>
