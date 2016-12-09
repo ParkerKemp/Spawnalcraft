@@ -38,6 +38,7 @@
 			<groupId>com.spinalcraft</groupId>
 			<artifactId>Skull</artifactId>
 			<version>1.0.4</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 	<build>
@@ -57,7 +58,6 @@
 							<minimizeJar>true</minimizeJar>
 							<artifactSet>
 								<includes>
-									<include>com.spinalcraft:Skull</include>
 								</includes>
 							</artifactSet>
 						</configuration>
